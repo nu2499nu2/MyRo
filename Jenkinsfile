@@ -49,9 +49,9 @@ pipeline {
             archiveArtifacts artifacts: '**/publish/**', fingerprint: true
         }
         failure {
-            mail to: 'you@example.com',
-                 subject: "Build failed in Jenkins: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "Check Jenkins for details: ${env.BUILD_URL}"
+            // mail to: 'you@example.com',
+            //      subject: "Build failed in Jenkins: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            //      body: "Check Jenkins for details: ${env.BUILD_URL}"
         }
     }
 }
