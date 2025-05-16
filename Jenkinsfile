@@ -5,10 +5,6 @@ pipeline {
         DOTNET_ROOT = "/usr/share/dotnet"
         DOTNET_CLI_TELEMETRY_OPTOUT = "1"
     }
-
-   tools {
-    dotnet 'dotnet8' // name configured in Jenkins > Global Tool Configuration
-    }
     stages {
         stage('Checkout') {
             steps {
