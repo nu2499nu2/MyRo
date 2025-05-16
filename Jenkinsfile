@@ -6,11 +6,9 @@ pipeline {
         DOTNET_CLI_TELEMETRY_OPTOUT = "1"
     }
 
-    tools {
-        // Only if you're using Jenkins tool config, otherwise install .NET manually
-        // dotnet installation should already be available in PATH
+   tools {
+    dotnet 'dotnet8' // name configured in Jenkins > Global Tool Configuration
     }
-
     stages {
         stage('Checkout') {
             steps {
