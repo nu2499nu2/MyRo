@@ -2,63 +2,62 @@ pipeline {
     agent any
 
     environment {
-        DOTNET_ROOT = "${HOME}/.dotnet"
-        PATH = "${DOTNET_ROOT}:${PATH}"
+        DOTNET_ROOT = "/usr/share/dotnet"
+        DOTNET_CLI_TELEMETRY_OPTOUT = "1"
     }
 
     tools {
-        // ��ͧ�Դ��� dotnet cli �� Global Tool ������ҡ script
-        // ���������� tools �����ҡ�Դ�����������ͧ����
+        // Only if you're using Jenkins tool config, otherwise install .NET manually
+        // dotnet installation should already be available in PATH
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/SoftWareNu/devop01.git', branch: 'main'
+                git url: 'https://github.com/nu2499nu2/MyRo.git', branch: 'main'
             }
         }
 
         stage('Restore') {
             steps {
-                sh '${HOME}/.dotnet/dotnet restore'
+                sh 'dotnet restore'
             }
         }
 
         stage('Build') {
             steps {
-                sh '${HOME}/.dotnet/dotnet build --configuration Release --no-restore'
+                sh 'dotnet build --no-restore'
             }
         }
 
         stage('Test') {
             steps {
-                sh '${HOME}/.dotnet/dotnet test --no-restore --verbosity normal'
+                sh 'dotnet test --no-build --verbosity normal'
             }
         }
 
         stage('Publish') {
             steps {
-                sh '${HOME}/.dotnet/dotnet publish -c Release -o out'
+                sh 'dotnet publish -c Release -o ./publish'
             }
         }
 
         stage('Deploy') {
             steps {
-                // �س����ö deploy ���� SCP, Docker, ���� rsync
-                // ������ҧ rsync:
-                sh 'rsync -avz out/ user@server:/var/www/api/'
+                // Replace this with your actual deploy method (Docker, SCP to server, etc.)
+                echo 'Deploying the application...'
             }
         }
     }
 
     post {
         always {
-            archiveArtifacts artifacts: '**/out/**', fingerprint: true
+            archiveArtifacts artifacts: '**/publish/**', fingerprint: true
         }
         failure {
-            mail to: 'nunldevelopment@gmail.com',
-                 subject: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}",
-                 body: "Something is wrong. Check Jenkins: ${env.BUILD_URL}"
+            mail to: 'you@example.com',
+                 subject: "Build failed in Jenkins: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Check Jenkins for details: ${env.BUILD_URL}"
         }
     }
 }
