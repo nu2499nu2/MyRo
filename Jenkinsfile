@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'mcr.microsoft.com/dotnet/sdk:8.0'
+            args '-u root:root' // ถ้าต้องการสิทธิ์ root
+        }
+    }
 
     environment {
         DOTNET_ROOT = "${HOME}/.dotnet"
