@@ -1,0 +1,65 @@
+## Build
+bin/
+obj/
+out/
+
+## User-specific
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio Code
+.vscode/
+.history/
+
+## Logs
+*.log
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## ASP.NET Secrets (if using dotnet user-secrets)
+**/secrets.json
+
+## dotnet watch temp
+**/.vs/
+**/.idea/
+**/.tmp/
+
+## Rider
+.idea/
+*.sln.iml
+
+## Test results
+TestResults/
+*.coverage
+*.coveragexml
+
+## NUGET packages
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# Node_modules (if used for frontend integration)
+node_modules/
+
+# Publish folder
+publish/
+
+# IIS artifacts
+*.vspscc
+*.vssscc
+
+# Docker artifacts (optional)
+docker-compose.override.yml
+docker-compose.*.yml
+.docker/
+
+# Environment files (optional)
+.env
+.env.*
