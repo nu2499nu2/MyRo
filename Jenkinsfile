@@ -6,10 +6,8 @@ pipeline {
         }
     }
 
-    environment {
-        DOTNET_ROOT = "${HOME}/.dotnet"
-        PATH = "${DOTNET_ROOT}:${PATH}"
-        DOTNET_CLI_TELEMETRY_OPTOUT = "1"
+  environment {
+        SOLUTION = "api.sln"
     }
     stages {
         stage('Checkout') {
@@ -19,30 +17,30 @@ pipeline {
         }
         stage('Check .NET Version') {
             steps {
-                sh '${DOTNET_ROOT}/dotnet --info'
+                sh 'dotnet --info'
             }
         }
         stage('Restore') {
             steps {
-                sh '${DOTNET_ROOT}/dotnet restore'
+                sh 'dotnet restore'
             }
         }
 
         stage('Build') {
             steps {
-                sh '${DOTNET_ROOT}/dotnet build --no-restore'
+                sh 'dotnet build --no-restore'
             }
         }
 
         stage('Test') {
             steps {
-                sh '${DOTNET_ROOT}/dotnet test --no-build --verbosity normal'
+                sh 'dotnet test --no-build --verbosity normal'
             }
         }
 
         stage('Publish') {
             steps {
-                sh '${DOTNET_ROOT}/dotnet publish -c Release -o ./publish'
+                sh 'dotnet publish -c Release -o ./publish'
             }
         }
 
