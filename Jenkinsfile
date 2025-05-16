@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOTNET_ROOT = "/usr/share/dotnet"
+        DOTNET_ROOT = "${HOME}/.dotnet"
+        PATH = "${DOTNET_ROOT}:${PATH}"
         DOTNET_CLI_TELEMETRY_OPTOUT = "1"
     }
     stages {
@@ -11,28 +12,32 @@ pipeline {
                 git url: 'https://github.com/nu2499nu2/MyRo.git', branch: 'main'
             }
         }
-
+        stage('Check .NET Version') {
+            steps {
+                sh '${DOTNET_ROOT}/dotnet --info'
+            }
+        }
         stage('Restore') {
             steps {
-                sh 'dotnet restore'
+                sh '${DOTNET_ROOT}/dotnet restore'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'dotnet build --no-restore'
+                sh '${DOTNET_ROOT}/dotnet build --no-restore'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'dotnet test --no-build --verbosity normal'
+                sh '${DOTNET_ROOT}/dotnet test --no-build --verbosity normal'
             }
         }
 
         stage('Publish') {
             steps {
-                sh 'dotnet publish -c Release -o ./publish'
+                sh '${DOTNET_ROOT}/dotnet publish -c Release -o ./publish'
             }
         }
 
